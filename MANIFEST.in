@@ -1,0 +1,4 @@
+include mintlemon/data/*
+exclude tests/*
+exclude docs/*
+exclude examples/*
