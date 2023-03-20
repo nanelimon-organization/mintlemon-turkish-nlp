@@ -59,7 +59,16 @@ class Normalizer:
         >>> Normalizer.remove_punctuations("#Merhaba, Dünya!")
         'Merhaba Dünya'
         """
-        return re.sub(f"[{string.punctuation}]", "", text)
+        text = " ".join([word for word in text.split() if '#' not in word and '@' not in word])
+        text = re.sub(r"(@\[A-Za-z]+)|([^A-Za-z \t])|(\w+:\/\/\S+)|^rt|http.+?", "", text)
+        text = re.sub(r'''      
+                           \W+       # Bir veya daha fazla sözcük olmayan karakter
+                           \s*       # artı sıfır veya daha fazla boşluk karakteri,
+                           ''',
+                      ' ',
+                      text,
+                      flags=re.VERBOSE)
+        return re.sub("\d+", "", text)
 
     @staticmethod
     def remove_accent_marks(text: str) -> str:
