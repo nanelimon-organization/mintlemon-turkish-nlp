@@ -38,6 +38,6 @@ setup(
     packages=find_packages(),
     package_data={"mintlemon": ["data/*"]},
     include_package_data=True,
-    install_requires=["numpy>=1.20.0", "regex>=2021.4.4"],
+    install_requires=["numpy>=1.20.0", "regex>=2021.4.4","zeyrek>=0.1.3"],
     extras_require={"dev": ["yapf", "bumpver", "flake8", "coverage", "pytest"]},
 )
