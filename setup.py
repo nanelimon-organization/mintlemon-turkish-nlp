@@ -37,7 +37,11 @@ setup(
     python_requires=">=3.7",
     packages=find_packages(),
     package_data={"mintlemon": ["data/*"]},
-    include_package_data=True,
-    install_requires=["numpy>=1.20.0", "regex>=2021.4.4","zeyrek>=0.1.3"],
+    include_package_data=True,install_requires=["numpy>=1.20.0",    
+                                                "regex>=2021.4.4",    
+                                                "zeyrek>=0.1.3",    
+                                                "nltk>=3.8.1",    
+                                                "pandas>=1.3.4",    
+                                                "scikit-learn>=1.2.0",],
     extras_require={"dev": ["yapf", "bumpver", "flake8", "coverage", "pytest"]},
 )

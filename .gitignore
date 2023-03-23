@@ -13,6 +13,7 @@ develop-eggs/
 dist/
 downloads/
 eggs/
+mintlemon-nlp/*
 .eggs/
 lib/
 lib64/

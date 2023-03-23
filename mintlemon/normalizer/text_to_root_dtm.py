@@ -2,8 +2,9 @@ import zeyrek
 import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer
 import nltk
+from typing import Optional
 
-nltk.download('punkt')
+nltk.download("punkt", quiet=True)
 
 class TextRootDTMVectorizer:
     """
@@ -23,7 +24,8 @@ class TextRootDTMVectorizer:
     >>> df = pd.DataFrame({'text': ['bu bir örnek metindir', 'başka bir örnek metin']})
     >>> vectorizer = TextRootDTMVectorizer(df, 'text')
     >>> vectorizer.fit_transform()
-       bir  bu  başka  metin  örnek
+
+        bir  bu  başka  metin  örnek
     0   1   1      0      1     1
     1   0   0      1      1     1
     """
@@ -36,7 +38,6 @@ class TextRootDTMVectorizer:
         self.column_name = column_name
         self.analyzer = zeyrek.MorphAnalyzer()
         self.vectorizer = CountVectorizer()
-
 
     def _analyze_word(self, word: str) -> Optional[str]:
         """
@@ -54,7 +55,7 @@ class TextRootDTMVectorizer:
 
         Examples
         --------
-        >>> vectorizer = TextRootDTMVectorizer(None, None) 
+        >>> vectorizer = TextRootDTMVectorizer(None, None)
         # dummy initialization first arg is actually mandatory
         # but we don't need it here
         >>> vectorizer._analyze_word('kelimelerimiz')
@@ -67,7 +68,6 @@ class TextRootDTMVectorizer:
         else:
             return None
 
-
     def fit_transform(self) -> pd.DataFrame:
         """
         Fit and transform the data using the vectorizer.
@@ -76,14 +76,14 @@ class TextRootDTMVectorizer:
         -------
         pandas.DataFrame
             The transformed document-term matrix.
-            
+
         Examples
         --------
         >>> import pandas as pd
         >>> df = pd.DataFrame({'text': ['bu bir örnek metindir', 'başka bir örnek metin']})
         >>> vectorizer = TextRootDTMVectorizer(df, 'text')
         >>> vectorizer.fit_transform()
-        bir  bu  başka  metin  örnek
+            bir  bu  başka  metin  örnek
         0   1   1      0      1     1
         1   0   0      1      1     1
         """

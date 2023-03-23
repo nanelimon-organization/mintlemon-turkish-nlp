@@ -1,5 +1,4 @@
 import re
-import string
 import warnings
 from typing import List
 
@@ -40,19 +39,15 @@ class Normalizer:
     def remove_punctuations(text: str) -> str:
         """
         Removes punctuations (!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~) from the given string.
-
         This function removes all the punctuation characters from the given text.
-
         Parameters
         ----------
         text : str
             Input text.
-
         Returns
         -------
         output : str
             Text stripped from punctuations.
-
         Example:
         --------
         >>> from mintlemon import Normalizer
