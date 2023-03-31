@@ -40,14 +40,17 @@ class Normalizer:
         """
         Removes punctuations (!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~) from the given string.
         This function removes all the punctuation characters from the given text.
+        
         Parameters
         ----------
         text : str
             Input text.
+            
         Returns
         -------
         output : str
             Text stripped from punctuations.
+            
         Example:
         --------
         >>> from mintlemon import Normalizer
