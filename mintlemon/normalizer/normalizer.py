@@ -30,7 +30,15 @@ class Normalizer:
         >>> Normalizer.lower_case("Ex: İIĞÜÖŞÇ")
         'ex: iığüöşç'
         """
-        turkish_lowercase_dict = {"İ": "i", "I": "ı", "Ğ": "ğ", "Ü": "ü", "Ö": "ö", "Ş": "ş", "Ç": "ç"}
+        turkish_lowercase_dict = {
+            "İ": "i",
+            "I": "ı",
+            "Ğ": "ğ",
+            "Ü": "ü",
+            "Ö": "ö",
+            "Ş": "ş",
+            "Ç": "ç",
+        }
         for k, v in turkish_lowercase_dict.items():
             text = text.replace(k, v)
         return text.lower()
@@ -40,33 +48,39 @@ class Normalizer:
         """
         Removes punctuations (!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~) from the given string.
         This function removes all the punctuation characters from the given text.
-        
+
         Parameters
         ----------
         text : str
             Input text.
-            
+
         Returns
         -------
         output : str
             Text stripped from punctuations.
-            
+
         Example:
         --------
         >>> from mintlemon import Normalizer
         >>> Normalizer.remove_punctuations("#Merhaba, Dünya!")
         'Merhaba Dünya'
         """
-        text = " ".join([word for word in text.split() if '@' not in word])
-        text = re.sub(r"(@\[A-Za-z0-9]+)|([^0-9A-Za-zğüşıöçĞÜŞİÖÇ0-9 \t])|(\w+:\/\/\S+)|^rt|http.+?", "", text)
-        text = re.sub(r'''      
+        text = " ".join([word for word in text.split() if "@" not in word])
+        text = re.sub(
+            r"(@\[A-Za-z0-9]+)|([^0-9A-Za-zğüşıöçĞÜŞİÖÇ0-9 \t])|(\w+:\/\/\S+)|^rt|http.+?",
+            "",
+            text,
+        )
+        text = re.sub(
+            r"""      
                     \W+       # Bir veya daha fazla sözcük olmayan karakter
                     \s*       # artı sıfır veya daha fazla boşluk karakteri,
-                    ''',
-                    ' ',
-                    text,
-                    flags=re.VERBOSE)
-        
+                    """,
+            " ",
+            text,
+            flags=re.VERBOSE,
+        )
+
         return text
 
     @staticmethod
@@ -138,13 +152,19 @@ class Normalizer:
         def convert_number(match):
             number = float(match.group(0).replace(",", "."))
             if number >= 1e21:
-                return warnings.warn("The number is too big to convert it to words in Turkish language.")
+                return warnings.warn(
+                    "The number is too big to convert it to words in Turkish language."
+                )
             elif number == int(number):
                 return NormBuiltin.number_to_word(number=int(number))
             else:
-                return warnings.warn("In Turkish language, decimal numbers are expressed with commas.")
+                return warnings.warn(
+                    "In Turkish language, decimal numbers are expressed with commas."
+                )
 
-        return re.sub(r"[-+]?\d*.\d+|\d+", convert_number, text.replace(",", " virgül ")).lstrip()
+        return re.sub(
+            r"[-+]?\d*.\d+|\d+", convert_number, text.replace(",", " virgül ")
+        ).lstrip()
 
     @staticmethod
     def deasciify(input: List[str]) -> List[str]:
