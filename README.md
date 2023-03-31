@@ -30,28 +30,23 @@ Mint & Lemon Türkçe Doğal Dil İşleme Kütüphanesi aktif olarak geliştiril
 
 --- 
 
-# Mint-Lemon-Turkish NLP Kütüphanesine'e Katkı Sağlama
-======================================================
+## Mint-Lemon-Turkish NLP Kütüphanesine'e Katkı Sağlama
 
 Bu projeye doğrudan katkıda bulunmak istiyorsanız, lütfen [CONTRIBUTING](CONTRIBUTING.rst) dosyasına bir göz atın.
 
 
-
-Dökümantasyon & Örnek Caseler
-=============================
+## Dökümantasyon & Örnek Caseler
 
 * [Mint & Lemon Turkish NLP Library Dökümantasyon.](https://mintlemon-turkish-nlp.readthedocs.io/en/latest/) 
 * Ek olarak, [ilgili klasöre](examples/) bakarak örneklerden yararlanabilirsiniz.
 
-Lisans
-======
+### Lisans
 
 Bu proje [LİSANS](LICENSE) altında açık kaynaklıdır.
 
 -   Lütfen dikkat edin, bu proje "olduğu gibi" sunulmaktadır ve hiçbir garanti verilmez. (Bu yazılımın kullanımı lisans sözleşmesinin şartlarına tabidir.) Bu yazılım Apache 2.0 lisansı altında lisanslanmıştır. [LİSANS](LICENSE) sayfasına bakın.
 
-Referanslar
-==========
+### Referanslar
 
 * [Koehn, P. ve Schroeder, J. (n.d.)](https://github.com/mediacloud/sentence-splitter). 
 * ["Türkçe Deasciification Yöntemleri Üzerine Karşılaştırmalı Bir Çalışma"](https://www.sciencedirect.com/science/article/pii/S221509862200101X), Türkçe Deasciification için çeşitli yöntemlerin karşılaştırmasını sunan bir bilimsel makale.
