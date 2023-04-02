@@ -217,3 +217,26 @@ class Normalizer:
         translationTable = str.maketrans("ğĞıİöÖüÜşŞçÇ", "gGiIoOuUsScC")
         result = text.translate(translationTable)
         return result
+
+    @staticmethod
+    def remove_numbers(text):
+        """
+        Removes numerical expressions from a given text.
+
+        This function removes all numerical expressions from a given text, including
+        integers, decimals, and signed integers/decimals.
+
+        Parameters
+        ----------
+        text : str
+            The text to remove numerical expressions from
+
+        Returns
+        -------
+        cleaned_text : str
+            The cleaned text without any numerical expressions
+        """
+        pattern = r'[-+]?\d*\.?\d+'
+
+        return re.sub(pattern, '', text)
+    
