@@ -15,6 +15,7 @@ class TestNormalizer(unittest.TestCase):
         self.text_accent_marks = "merhâbâ"
         self.text_norm_turkish_chars = "Gazi Üniversitesi'ne hoş geldiniz."
         self.text_with_mixed_numbers = "Bu cümle 12.34 ile başlıyor ve 56 ile bitiyor. 2,5 +3,5 -3,4 ile ilgili bir şeyler söyleyebiliriz."
+        self.text_with_extra_spaces = "Ahmet Selam,  Nerelerdeydin? Seni ÇOOOOK      ÖZLEDİK!!!"
 
     def test_lower_case(self):
         """Test the lower_case() method"""
@@ -60,3 +61,6 @@ class TestNormalizer(unittest.TestCase):
             self.normalizer.remove_numbers(self.text_with_mixed_numbers),
             "Bu cümle ile başlıyor ve ile bitiyor. ile ilgili bir şeyler söyleyebiliriz.",
         )
+
+    def test_remove_more_space(self):
+        self.assertEqual(self.normalizer.remove_more_space(self.text_with_extra_spaces), "Ahmet Selam, Nerelerdeydin? Seni ÇOOOOK ÖZLEDİK!!!")
