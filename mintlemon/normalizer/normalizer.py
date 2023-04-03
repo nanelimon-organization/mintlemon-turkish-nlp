@@ -214,3 +214,30 @@ class Normalizer:
         translationTable = str.maketrans("ğĞıİöÖüÜşŞçÇ", "gGiIoOuUsScC")
         result = text.translate(translationTable)
         return result
+
+    @staticmethod
+    def remove_numbers(text):
+        """
+        Removes numerical expressions from a given text.
+
+        This function removes all numerical expressions from a given text, including
+        integers, decimals, and signed integers/decimals.
+
+        Parameters
+        ----------
+        text : str
+            The text to remove numerical expressions from
+
+        Returns
+        -------
+        cleaned_text : str
+            The cleaned text without any numerical expressions
+
+        Example
+        -------
+        >>> text = "Bu cümle 12.34 ile başlıyor ve 56 ile bitiyor."
+        >>> remove_numbers(text)
+        'Bu cümle ile başlıyor ve ile bitiyor.'
+        """
+        return re.sub(r'[-+]?\d*\.?\d+\s*','', text)
+    
