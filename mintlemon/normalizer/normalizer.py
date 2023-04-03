@@ -240,3 +240,27 @@ class Normalizer:
         'Bu cümle ile başlıyor ve ile bitiyor. ile ilgili bir şeyler söyleyebiliriz.'
         """
         return re.sub(r'(?<!\d)[-+]?\d*\.?\d+(?!\d)\s*','', text)
+
+    @staticmethod
+    def remove_more_space(text: str) -> str:
+        """
+        Removes extra spaces from the given text.
+
+        Parameters
+        ----------
+        text : str
+            The text to remove extra spaces from.
+
+        Returns
+        -------
+        str
+            The cleaned text without extra spaces.
+
+        Example
+        -------
+        >>> text = "Ahmet Selam,  Nerelerdeydin? Seni ÇOOOOK      ÖZLEDİK!!!"
+        >>> remove_more_space(text)
+        'Ahmet Selam, Nerelerdeydin? Seni ÇOOOOK ÖZLEDİK!!!'
+        """
+        return " ".join(text.split())
+    
