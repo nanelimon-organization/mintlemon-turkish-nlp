@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="mintlemon-turkish-nlp",
-    version = "0.2.1",
+    version = "0.2.2",
     description="Mint & Lemon Turkish NLP Library developed by Mint & Lemon Development Team.",
     author="Mint&Lemon",
     license="Apache License, Version 2.0",
