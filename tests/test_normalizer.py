@@ -64,3 +64,18 @@ class TestNormalizer(unittest.TestCase):
 
     def test_remove_more_space(self):
         self.assertEqual(self.normalizer.remove_more_space(self.text_with_extra_spaces), "Ahmet Selam, Nerelerdeydin? Seni ÇOOOOK ÖZLEDİK!!!")
+        
+    def test_drop_empty_values(self):
+        """Test the drop_empty_values() method"""
+        data = {'id': [1, 2, 3, 4, 5],
+                'name': ['Şeyma', 'Murat', 'Elif', 'Tarık Kaan', 'Erdinç'],
+                'text': ['Bilgisayar Mühendisi', 'Doç. Dr', '', 'Yazılım Mühendisi', '']}
+        df = pd.DataFrame(data)
+
+        expected_output = pd.DataFrame({'id': [1, 2, 4],
+                                        'name': ['Şeyma', 'Murat', 'Tarık Kaan'],
+                                        'text': ['Bilgisayar Mühendisi', 'Doç. Dr', 'Yazılım Mühendisi']})
+
+        cleaned_df = self.normalizer.drop_empty_values(df, 'text')
+
+        self.assertTrue(expected_output.equals(cleaned_df))
