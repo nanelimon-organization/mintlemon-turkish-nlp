@@ -235,9 +235,8 @@ class Normalizer:
 
         Example
         -------
-        >>> text = "Bu cümle 12.34 ile başlıyor ve 56 ile bitiyor."
+        >>> text = "Bu cümle 12.34 ile başlıyor ve 56 ile bitiyor. 2,5 +3,5 -3,4 ile ilgili bir şeyler söyleyebiliriz."
         >>> remove_numbers(text)
-        'Bu cümle ile başlıyor ve ile bitiyor.'
+        'Bu cümle ile başlıyor ve ile bitiyor. ile ilgili bir şeyler söyleyebiliriz.'
         """
-        return re.sub(r'[-+]?\d*\.?\d+\s*','', text)
-    
+        return re.sub(r'(?<!\d)[-+]?\d*\.?\d+(?!\d)\s*','', text)
