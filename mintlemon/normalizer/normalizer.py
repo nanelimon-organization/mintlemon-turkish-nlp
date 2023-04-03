@@ -240,4 +240,3 @@ class Normalizer:
         'Bu cümle ile başlıyor ve ile bitiyor. ile ilgili bir şeyler söyleyebiliriz.'
         """
         return re.sub(r'(?<!\d)[-+]?\d*\.?\d+(?!\d)\s*','', text)
-        
