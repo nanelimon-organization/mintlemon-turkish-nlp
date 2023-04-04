@@ -1,9 +1,11 @@
 import re
 import warnings
 from typing import List
-
+from pathlib import Path
 from ._builtin import DeasciifierBuiltin, NormBuiltin
-import pandas as pd 
+import pandas as pd
+
+ST_WR_PATH = str(Path(__file__).parent.parent / "data/stop_words.txt")
 
 class Normalizer:
     @staticmethod
@@ -300,3 +302,35 @@ class Normalizer:
         cleaned_df = df[df[column_text] != ""]
 
         return cleaned_df
+
+    @staticmethod
+    def remove_stopwords(text: str, stop_words_file: str = ST_WR_PATH) -> str:
+        """
+        Removes stop words from the given text.
+
+        Parameters
+        ----------
+        text : str
+            The text to remove stop words from.
+        stop_words_file : str
+            The path to the file containing the stop words. Default is the path defined in the library.
+
+        Returns
+        -------
+        str
+            The cleaned text without stop words.
+
+        Example
+        -------
+        >>> text = "Bu cümledeki bazı gereksiz kelimeleri çıkarmak istiyorum."
+        >>> remove_stopwords(text)
+        'cümledeki gereksiz kelimeleri çıkarmak istiyorum.'
+        """
+        with open(stop_words_file, "r", encoding="utf-8") as f:
+            stop_words = set(f.read().split())
+
+        cleaned_text = " ".join(
+            word for word in text.split() if word.lower() not in stop_words
+        )
+
+        return cleaned_text
