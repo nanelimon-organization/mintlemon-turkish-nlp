@@ -16,16 +16,21 @@ Mint & Lemon Türkçe Doğal Dil İşleme Kütüphanesi aktif olarak geliştiril
 
 ### Kütüphanemiz literatürde açıklanan aşağıdaki yöntemleri içermektedir:
 
-| Fonksiyon/İşlev | Açıklama |
-| --- | --- |
-| `split_sentences(text: str) -> List[str]` |Türkçe metinlerde Türkçe olmayan cümle başlangıç öneklerini dikkate alarak  (Örneğin: "Dr.", "Prof." gibi kısaltmalar), bu önekler cümlelerin başında yer aldıklarında ayrı bir cümle olarak algılanmamalıdır.  Bunları dikkate alarak metni cümlelere ayırmak için kullanılır. Türkçe metinlerin doğru bir şekilde işlenmesine ve anlaşılmasına yardımcı olur. |
-| `TextRootDTMVectorizer(dataframe: pd.DataFrame, column_name: str)` |TextRootDTMVectorizer, bir DataFrame içindeki metin verilerini belirtilen sütun ismiyle alır. Daha sonra, Zeyrek morfolojik analizörünü kullanarak Türkçe kelimelerin köklerini çıkarır ve belge-terim matrisine dönüştürür. Bu matris, her kelimenin belgedeki frekansını içerir ve makine öğrenimi algoritmalarında sıklıkla kullanılır. Örneğin, bir metin veri kümesindeki belirli bir kelimenin farklı belgelerdeki kullanım sıklığını analiz etmek istiyorsanız, bu matrisi kullanabilirsiniz. Sonuç olarak, TextRootDTMVectorizer verilen DataFrame içindeki metinleri daha uygun hale getirmek ve daha verimli bir şekilde analiz etmek için kullanılabilir. |
-| `lower_case(text: str) -> str` | Türkçe metinleri küçük harfe dönüştürmek için kullanılır. `İ`, `I`, `Ğ`, `Ü`, `Ö`, `Ş`, `Ç` karakterlerini de doğru şekilde işler. |
-| `remove_punctuations(text: str) -> str` | Verilen metinden noktalama işaretlerini (`!"#$%&'()*+,}{~-./:;<=>?@[\]^_` ) gibi ifadeleri kaldırır. |
-| `remove_accent_marks(text: str) -> str` | Verilen metinden Türkçe karakterlerdeki aksan işaretlerini (`â, ô, î, ê, û, Â, Ô, Î, Ê, Û`) kaldırır. |
-| `convert_text_numbers(text: str) -> str` | Verilen metindeki sayıları Türkçe yazıya çevirir. |
-| `deasciify(input: List[str]) -> List[str]` | Deasciify, metindeki `ASCII` karakterlerini Türkçe karakterlere dönüştürür. Bu işlem, Türkçe metinlerin doğru bir şekilde işlenmesine ve anlaşılmasına yardımcı olur. |
-| `normalize_turkish_chars(text: str) -> str` | Verilen metindeki Türkçe karakterleri `ASCII` karakterlere dönüştürür. |
+No | Modül | Fonksiyon | Açıklama |
+| --- | --- | --- | --- |
+| 0 | Sentence Splitter | `split_sentences(text: str) -> List[str]` |Türkçe metinlerde Türkçe olmayan cümle başlangıç öneklerini dikkate alarak  (Örneğin: "Dr.", "Prof." gibi kısaltmalar), bu önekler cümlelerin başında yer aldıklarında ayrı bir cümle olarak algılanmamalıdır.  Bunları dikkate alarak metni cümlelere ayırmak için kullanılır. Türkçe metinlerin doğru bir şekilde işlenmesine ve anlaşılmasına yardımcı olur. |
+| 1 | Text Root DTM Vectorizer | `TextRootDTMVectorizer(dataframe: pd.DataFrame, column_name: str)` |TextRootDTMVectorizer, bir DataFrame içindeki metin verilerini belirtilen sütun ismiyle alır. Daha sonra, Zeyrek morfolojik analizörünü kullanarak Türkçe kelimelerin köklerini çıkarır ve belge-terim matrisine dönüştürür. Bu matris, her kelimenin belgedeki frekansını içerir ve makine öğrenimi algoritmalarında sıklıkla kullanılır. Örneğin, bir metin veri kümesindeki belirli bir kelimenin farklı belgelerdeki kullanım sıklığını analiz etmek istiyorsanız, bu matrisi kullanabilirsiniz. Sonuç olarak, TextRootDTMVectorizer verilen DataFrame içindeki metinleri daha uygun hale getirmek ve daha verimli bir şekilde analiz etmek için kullanılabilir. |
+| 2 | Normalizer | `lower_case(text: str) -> str` | Türkçe metinleri küçük harfe dönüştürmek için kullanılır. `İ`, `I`, `Ğ`, `Ü`, `Ö`, `Ş`, `Ç` karakterlerini de doğru şekilde işler. |
+| 3 | Normalizer | `remove_punctuations(text: str) -> str` | Verilen metinden noktalama işaretlerini (`!"#$%&'()*+,}{~-./:;<=>?@[\]^_` ) gibi ifadeleri kaldırır. |
+| 4 | Normalizer | `remove_accent_marks(text: str) -> str` | Verilen metinden Türkçe karakterlerdeki aksan işaretlerini (`â, ô, î, ê, û, Â, Ô, Î, Ê, Û`) kaldırır. |
+| 5 | Normalizer | `convert_text_numbers(text: str) -> str` | Verilen metindeki sayıları Türkçe yazıya çevirir. |
+| 6 | Normalizer | `deasciify(input: List[str]) -> List[str]` | Deasciify, metindeki `ASCII` karakterlerini Türkçe karakterlere dönüştürür. Bu işlem, Türkçe metinlerin doğru bir şekilde işlenmesine ve anlaşılmasına yardımcı olur. |
+| 7 | Normalizer | `normalize_turkish_chars(text: str) -> str` | Verilen metindeki Türkçe karakterleri `ASCII` karakterlere dönüştürür. |
+| 8 | Normalizer | `remove_numbers(text: str) -> str` | Verilen metinden sayısal ifadeleri (tam sayılar, ondalık sayılar ve işaretli sayılar) kaldırır. |
+| 9 | Normalizer | `remove_more_space(text: str) -> str` | Verilen metindeki ekstra boşlukları kaldırır. |
+| 10 | Normalizer | `drop_empty_values(df, column_text) -> pd.DataFrame` | Verilen veri çerçevesinde, belirtilen sütun adı boş olan satırları kaldırır. |
+| 11 | Normalizer | `remove_stopwords(text: str, stop_words_file: str = ST_WR_PATH) -> str` | Verilen metinden durak kelimelerini (stop words) kaldırır. |
+
 
 
 --- 
