@@ -29,7 +29,7 @@ No | Modül | Fonksiyon | Açıklama |
 | 8 | Normalizer | `remove_numbers(text: str) -> str` | Verilen metinden sayısal ifadeleri (tam sayılar, ondalık sayılar ve işaretli sayılar) kaldırır. |
 | 9 | Normalizer | `remove_more_space(text: str) -> str` | Verilen metindeki ekstra boşlukları kaldırır. |
 | 10 | Normalizer | `drop_empty_values(df, column_text) -> pd.DataFrame` | Verilen veri çerçevesinde, belirtilen sütun adı boş olan satırları kaldırır. |
-| 11 | Normalizer | `remove_stopwords(text: str, stop_words_file: str = ST_WR_PATH) -> str` | Verilen metinden durak kelimelerini (stop words) kaldırır. |
+| 11 | Normalizer | `remove_stopwords(text: str, stop_words_file: str = ST_WR_PATH) -> str` | Fonksiyon, verilen metindeki durak kelimelerini kaldırarak daha net ve anlamlı bir metin elde etmeyi amaçlar. Durak kelimeleri, dilbilgisi açısından önemsiz veya bir metnin anlamını etkilemeyen kelimelerdir. Örneğin, "bir", "ve", "ama", "ise", "ki" gibi sözcükler durak kelimeleridir. Bu kelimeler, bir metnin analizi veya işlenmesi sırasında genellikle göz ardı edilebilir. |
 
 
 
