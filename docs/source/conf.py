@@ -12,78 +12,65 @@
 import os
 import sys
 
+# Add project directory to sys.path
 sys.path.insert(0, os.path.abspath('../..'))
 
 # -- Project information -----------------------------------------------------
 
-project = "mintlemon-turkish-nlp"
-author = "🌿 Mint & Lemon 🍋"
-release = "2 - Pre-Alpha"
-version = "latest"
-html_title = project + " " + version
-html_last_updated_fmt = "%b %d, %Y"
+project = 'mintlemon-turkish-nlp'
+author = '🌿 Mint & Lemon 🍋'
+version = 'latest'
+release = '2 - Pre-Alpha'
 
 # -- General configuration ---------------------------------------------------
 
-# Add any Sphinx extension module names here, as strings. They can be
-# extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
-# ones.
-
-
 extensions = [
-    "sphinx.ext.duration",
-    "sphinx.ext.doctest",
-    "sphinx.ext.autodoc",
-    "sphinx.ext.viewcode",
-    "sphinx.ext.autosectionlabel",
+    'sphinx.ext.duration',
+    'sphinx.ext.doctest',
+    'sphinx.ext.autodoc',
+    'sphinx.ext.viewcode',
+    'sphinx.ext.autosectionlabel',
+    'sphinx.ext.githubpages',
+    'sphinx.ext.imgmath',
+    'sphinx.ext.intersphinx',
+    'sphinx.ext.todo',
+    'sphinx.ext.ifconfig',
+    'sphinx.ext.coverage',
+    'sphinx.ext.graphviz',
+    'sphinxcontrib.fulltoc',
+    'sphinx_copybutton',
+    'sphinx_togglebutton',
+    'myst_parser'
 ]
-
-suppress_warnings = ["autosectionlabel.*"]
+suppress_warnings = ['autosectionlabel.*']
 
 # Napoleon settings
 napoleon_numpy_docstring = True
 
 # html_context configuration for GitHub edit link
 html_context = {
-    "display_github": True,
-    "github_user": "Teknofest-Nane-Limon",
-    "github_repo": "mintlemon-turkish-nlp",
-    "github_version": "main/docs/"
+    'display_github': True,
+    'github_user': 'Teknofest-Nane-Limon',
+    'github_repo': 'mintlemon-turkish-nlp',
+    'github_version': 'main/docs/',
 }
-
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
-# This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = ["_build", "Thumbs.db", ".DS_Store", "TODO/*"]
+exclude_patterns = [
+    '_build',
+    'Thumbs.db',
+    '.DS_Store',
+    'TODO/*',
+]
 
-language = "English"
-
-source_suffix = [".rst", ".md"]
+language = 'English'
+source_suffix = ['.rst', '.md']
 
 # -- Options for HTML output -------------------------------------------------
 
-html_static_path = ["_static"]
+html_static_path = ['_static']
+html_theme = 'press'
 
-html_theme = "sphinx_book_theme"
-
-html_theme_options = {
-    "path_to_docs": "docs",
-    "repository_url": "https://github.com/Teknofest-Nane-Limon/mintlemon-turkish-nlp",
-    "use_repository_button": True,
-}
-
-html_context = {
-    "display_github": True,  # Integrate GitHub
-    "github_user": "Teknofest-Nane-Limon",  # Username
-    "github_repo": "mintlemon-turkish-nlp",  # Repo name
-    "github_version": "main",  # Version
-    "conf_py_path": "/docs/source",  # Path in the checkout to the docs root
-}
-
-# Below html_theme_options config depends on the theme.
-html_logo = "_static/logo.png"
-
-# -- Options for EPUB output
-epub_show_urls = "footnote"
-myst_enable_extensions = ["colon_fence"]
+#html_logo
+html_logo = '_static/logo.png'
