@@ -1,10 +1,7 @@
 from setuptools import setup, find_packages
-import os 
-import io 
 
 def get_long_description():
-    base_dir = os.path.abspath(os.path.dirname(__file__))
-    with io.open(os.path.join(base_dir, "README.md"), encoding="utf-8") as f:
+    with open("README.md", "r", encoding="utf-8") as f:
         return f.read()
 
 setup(
@@ -14,6 +11,7 @@ setup(
     author="Mint&Lemon",
     license="Apache License, Version 2.0",
     long_description=get_long_description(),
+    long_description_content_type="text/markdown",
     url="https://github.com/Teknofest-Nane-Limon/mintlemon-turkish-nlp",
     project_urls={
         "Tracker": "https://github.com/Teknofest-Nane-Limon/mintlemon-turkish-nlp/issues",
@@ -45,11 +43,14 @@ setup(
     python_requires=">=3.7",
     packages=find_packages(),
     package_data={"mintlemon": ["data/*"]},
-    include_package_data=True,install_requires=["numpy>=1.20.0",    
-                                                "regex>=2021.4.4",    
-                                                "zeyrek>=0.1.3",    
-                                                "nltk>=3.8.1",    
-                                                "pandas>=1.3.4",    
-                                                "scikit-learn>=1.2.0",],
+    include_package_data=True,
+    install_requires=[
+        "numpy>=1.20.0",    
+        "regex>=2021.4.4",    
+        "zeyrek>=0.1.3",    
+        "nltk>=3.8.1",    
+        "pandas>=1.3.4",    
+        "scikit-learn>=1.2.0",
+    ],
     extras_require={"dev": ["yapf", "bumpver", "flake8", "coverage", "pytest"]},
 )
