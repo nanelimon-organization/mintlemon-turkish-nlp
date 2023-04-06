@@ -50,7 +50,7 @@ class Normalizer:
         """
         Removes punctuations (!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~) from the given string.
         This function removes all the punctuation characters from the given text.
-
+        
         Parameters
         ----------
         text : str
@@ -60,30 +60,17 @@ class Normalizer:
         -------
         output : str
             Text stripped from punctuations.
-
+            
         Example:
         --------
         >>> from mintlemon import Normalizer
-        >>> Normalizer.remove_punctuations("#Merhaba, Dünya!")
-        'Merhaba Dünya'
+        >>> Normalizer.remove_punctuations("#Merhaba, Dünya! ! # $ % &'()*+,-./:; <= >?@ [\]^_`{|}~) ")
+        'Dünya'
         """
-        text = " ".join([word for word in text.split() if "@" not in word])
-        text = re.sub(
-            r"(@\[A-Za-z0-9]+)|([^0-9A-Za-zğüşıöçĞÜŞİÖÇ0-9 \t])|(\w+:\/\/\S+)|^rt|http.+?",
-            "",
-            text,
-        )
-        text = re.sub(
-            r"""      
-                    \W+       # Bir veya daha fazla sözcük olmayan karakter
-                    \s*       # artı sıfır veya daha fazla boşluk karakteri,
-                    """,
-            " ",
-            text,
-            flags=re.VERBOSE,
-        )
+        text = re.sub(r'\s*#\w+', '', text) # remove hashtags
+        text = re.sub(r"(@\[A-Za-z0-9]+)|([^0-9A-Za-zğüşıöçĞÜŞİÖÇ0-9 \t])|(\w+:\/\/\S+)|^rt|http.+?", '', text) # punctuations removed except #,@
 
-        return text
+        return text.strip()
 
     @staticmethod
     def remove_accent_marks(text: str) -> str:
