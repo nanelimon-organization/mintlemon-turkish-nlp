@@ -1,11 +1,19 @@
 from setuptools import setup, find_packages
+import os 
+import io 
+
+def get_long_description():
+    base_dir = os.path.abspath(os.path.dirname(__file__))
+    with io.open(os.path.join(base_dir, "README.md"), encoding="utf-8") as f:
+        return f.read()
 
 setup(
     name="mintlemon-turkish-nlp",
-    version = "0.2.3",
+    version = "0.2.4",
     description="Mint & Lemon Turkish NLP Library developed by Mint & Lemon Development Team.",
     author="Mint&Lemon",
     license="Apache License, Version 2.0",
+    long_description=get_long_description(),
     url="https://github.com/Teknofest-Nane-Limon/mintlemon-turkish-nlp",
     project_urls={
         "Tracker": "https://github.com/Teknofest-Nane-Limon/mintlemon-turkish-nlp/issues",
