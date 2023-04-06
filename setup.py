@@ -6,7 +6,7 @@ def get_long_description():
 
 setup(
     name="mintlemon-turkish-nlp",
-    version = "0.2.4",
+    version = "0.2.5",
     description="Mint & Lemon Turkish NLP Library developed by Mint & Lemon Development Team.",
     author="Mint&Lemon",
     license="Apache License, Version 2.0",
