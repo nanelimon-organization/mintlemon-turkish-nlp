@@ -42,10 +42,19 @@ No | Modül | Fonksiyon | Açıklama |
 Bu projeye doğrudan katkıda bulunmak istiyorsanız, lütfen [CONTRIBUTING](CONTRIBUTING.rst) dosyasına bir göz atın.
 
 
-## Dökümantasyon & Örnek Caseler
+## Dökümantasyon & Örnekler
 
-* [Mint & Lemon Turkish NLP Library Dökümantasyon.](https://mintlemon-turkish-nlp.readthedocs.io/en/latest/) 
+* [Mint & Lemon Turkish NLP Library Dökümantasyon.](https://mintlemon-turkish-nlp.readthedocs.io/en/latest/)
 * Ek olarak, [ilgili klasöre](examples/) bakarak örneklerden yararlanabilirsiniz.
+
+
+
+
+|    | 
+|----|
+|<img width="1792" alt="Ekran Resmi 2023-04-06 13 00 48" src="https://user-images.githubusercontent.com/83168207/230344345-4dfe39a3-46f4-4147-bd47-61ee9548c948.png">|
+
+
 
 ### Lisans
 
