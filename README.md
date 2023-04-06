@@ -1,6 +1,8 @@
+<h1 align = 'Center'>Mintlemon Türkçe Doğal Dil İşleme Kütüphanesi</h1>
+
 |    | 
 |----|
-|![1](https://user-images.githubusercontent.com/83168207/229226994-d6023420-c88b-48c8-abaf-8429ce050c1f.jpg)|Açıklama buraya yazılabilir.|
+|![1](https://user-images.githubusercontent.com/83168207/229226994-d6023420-c88b-48c8-abaf-8429ce050c1f.jpg)|Türkçe Doğal Dil İşleme Kütüphanesi.|
 
 
 ### Gelecek Planlar
