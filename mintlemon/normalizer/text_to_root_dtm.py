@@ -21,13 +21,10 @@ class TextRootDTMVectorizer:
     Examples
     --------
     >>> import pandas as pd
+    >>> from mintlemon import TextRootDTMVectorizer
     >>> df = pd.DataFrame({'text': ['bu bir örnek metindir', 'başka bir örnek metin']})
     >>> vectorizer = TextRootDTMVectorizer(df, 'text')
     >>> vectorizer.fit_transform()
-
-        bir  bu  başka  metin  örnek
-    0   1   1      0      1     1
-    1   0   0      1      1     1
     """
 
     def __init__(self, dataframe: pd.DataFrame, column_name: str) -> None:
@@ -55,11 +52,11 @@ class TextRootDTMVectorizer:
 
         Examples
         --------
+        >>> from mintlemon import TextRootDTMVectorizer
         >>> vectorizer = TextRootDTMVectorizer(None, None)
         # dummy initialization first arg is actually mandatory
         # but we don't need it here
         >>> vectorizer._analyze_word('kelimelerimiz')
-        'kelime'
         """
         analysis = self.analyzer.analyze(word)
         if len(analysis) > 0:
@@ -80,12 +77,10 @@ class TextRootDTMVectorizer:
         Examples
         --------
         >>> import pandas as pd
+        >>> from mintlemon import TextRootDTMVectorizer
         >>> df = pd.DataFrame({'text': ['bu bir örnek metindir', 'başka bir örnek metin']})
         >>> vectorizer = TextRootDTMVectorizer(df, 'text')
         >>> vectorizer.fit_transform()
-            bir  bu  başka  metin  örnek
-        0   1   1      0      1     1
-        1   0   0      1      1     1
         """
         processed_texts = []
         for text in self.dataframe[self.column_name]:
