@@ -31,16 +31,7 @@ extensions = [
     'sphinx.ext.viewcode',
     'sphinx.ext.autosectionlabel',
     'sphinx.ext.githubpages',
-    'sphinx.ext.imgmath',
     'sphinx.ext.intersphinx',
-    'sphinx.ext.todo',
-    'sphinx.ext.ifconfig',
-    'sphinx.ext.coverage',
-    'sphinx.ext.graphviz',
-    'sphinxcontrib.fulltoc',
-    'sphinx_copybutton',
-    'sphinx_togglebutton',
-    'myst_parser'
 ]
 suppress_warnings = ['autosectionlabel.*']
 
