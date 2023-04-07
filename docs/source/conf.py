@@ -30,8 +30,6 @@ extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.viewcode',
     'sphinx.ext.autosectionlabel',
-    'sphinx.ext.githubpages',
-    'sphinx.ext.intersphinx',
 ]
 suppress_warnings = ['autosectionlabel.*']
 
