@@ -4,16 +4,6 @@
 |----|
 |![1](https://user-images.githubusercontent.com/83168207/229226994-d6023420-c88b-48c8-abaf-8429ce050c1f.jpg)|Türkçe Doğal Dil İşleme Kütüphanesi.|
 
-
-### Gelecek Planlar
-
-Mint & Lemon Türkçe Doğal Dil İşleme Kütüphanesi aktif olarak geliştirilmekte olup gelecek için birkaç planımız bulunmaktadır. Ana hedefimiz kütüphanenin işlevselliğini ve kullanılabilirliğini geliştirmeye devam ederken, yeni NLP İşlevleri ve uygulamalarını kapsayacak şekilde kütüphaneyi genişletmektir. Şu anda üzerinde çalıştığımız veya yakın gelecekte uygulamayı planladığımız bazı temel özellikler ve geliştirmeler şunlardır:
-
-- **Derin öğrenme ve sinir ağı desteği:** Gelecekte kütüphaneye derin öğrenme ve sinir ağı desteği eklemeyi planlıyoruz.
-- **Performans ve ölçeklenebilirlikte gelişmeler:** Özellikle büyük veri kümeleri ve yüksek hacimli kullanım durumları için kütüphanenin performans ve ölçeklenebilirliğini geliştirmek için çalışıyoruz. 
-- **Dökümantasyon/Örnekler:** Yeni özellikleri ve kullanım durumlarını kapsayan dökümanları ve öğreticileri/örnekleri genişleteceğiz ve ayrıntılı açıklamalar sağlayacağız.
-- **Değerlendirme ve karşılaştırma:** Gelecekte kütüphanenin performansını ve doğruluğunu ölçmek ve diğer popüler NLP kütüphaneleriyle karşılaştırmak için daha ayrıntılı değerlendirmeler ve karşılaştırmalar yapacağız.
-
 ---
 
 ### Kütüphanemiz literatürde açıklanan aşağıdaki yöntemleri içermektedir:
@@ -32,7 +22,6 @@ No | Modül | Fonksiyon | Açıklama |
 | 9 | Normalizer | `remove_more_space(text: str) -> str` | Verilen metindeki ekstra boşlukları kaldırır. |
 | 10 | Normalizer | `drop_empty_values(df, column_text) -> pd.DataFrame` | Verilen veri çerçevesinde, belirtilen sütun adı boş olan satırları kaldırır. |
 | 11 | Normalizer | `remove_stopwords(text: str, stop_words_file: str = ST_WR_PATH) -> str` | Fonksiyon, verilen metindeki durak kelimelerini kaldırarak daha net ve anlamlı bir metin elde etmeyi amaçlar. Durak kelimeleri, dilbilgisi açısından önemsiz veya bir metnin anlamını etkilemeyen kelimelerdir. Örneğin, "bir", "ve", "ama", "ise", "ki" gibi sözcükler durak kelimeleridir. Bu kelimeler, bir metnin analizi veya işlenmesi sırasında genellikle göz ardı edilebilir. |
-
 
 
 --- 
