@@ -65,12 +65,21 @@ class Normalizer:
         --------
         >>> from mintlemon import Normalizer
         >>> Normalizer.remove_punctuations("#Merhaba, Dünya! ! # $ % &'()*+,-./:; <= >?@ [\]^_`{|}~) ")
-        'Dünya'
+        'Merhaba Dünya'
         """
-        text = re.sub(r'\s*#\w+', '', text) # remove hashtags
-        text = re.sub(r"(@\[A-Za-z0-9]+)|([^0-9A-Za-zğüşıöçĞÜŞİÖÇ0-9 \t])|(\w+:\/\/\S+)|^rt|http.+?", '', text) # punctuations removed except #,@
-
-        return text.strip()
+        text = re.sub(
+            r"[^\w\sğüşıöçĞÜŞİÖÇ]",  # Alphanumeric olmayan ve boşluk olmayan tüm karakterler
+            "",  # ile değiştirilecek olan ifade-> burada boş string
+            text,  
+        )
+        
+        text = re.sub(
+            r"\s+", 
+            " ",  
+            text,  
+        )
+        
+        return text.strip()  
 
     @staticmethod
     def remove_accent_marks(text: str) -> str:
@@ -137,7 +146,6 @@ class Normalizer:
         >>> Normalizer.convert_text_numbers("Evi 1000000 TL Değerinde! Çok güzel bir evi var ama 3,5 ay boyunca satamamışlar...")
         'Evi bir milyon TL Değerinde! Çok güzel bir evi var ama üç virgül beş ay boyunca satamamışlar...
         """
-
         def convert_number(match):
             number = float(match.group(0).replace(",", "."))
             if number >= 1e21:
