@@ -216,17 +216,25 @@ class Normalizer:
         return result
 
     @staticmethod
-    def remove_numbers(text):
+    def remove_numbers(text, remove_signed=True, remove_decimal=True):
         """
         Removes numerical expressions from a given text.
 
         This function removes all numerical expressions from a given text, including
-        integers, decimals, and signed integers/decimals.
+        integers, decimals, and signed integers/decimals based on the parameters.
 
         Parameters
         ----------
         text : str
             The text to remove numerical expressions from
+
+        remove_signed : bool, optional
+            Whether to remove signed integers/decimals from the text.
+            By default, it is set to True.
+
+        remove_decimal : bool, optional
+            Whether to remove decimal numbers from the text.
+            By default, it is set to True.
 
         Returns
         -------
@@ -235,11 +243,29 @@ class Normalizer:
 
         Example
         -------
+        >>> from mintlemon import Normalizer
+        >>> normalize = Normalizer()
         >>> text = "Bu cümle 12.34 ile başlıyor ve 56 ile bitiyor. 2,5 +3,5 -3,4 ile ilgili bir şeyler söyleyebiliriz."
-        >>> remove_numbers(text)
-        'Bu cümle ile başlıyor ve ile bitiyor. ile ilgili bir şeyler söyleyebiliriz.'
+        >>> normalize.remove_numbers(text)
+        'Bu cümle ile başlıyor ve ile bitiyor. İle ilgili bir şeyler söyleyebiliriz.'
         """
-        return re.sub(r"(?<!\d)[-+]?\d*\.?\d+(?!\d)\s*", "", text)
+        if remove_signed and remove_decimal:
+            pattern = r"(?<!\d)[-+]?\d*\.?\d+(?!\d)"
+        elif remove_signed:
+            pattern = r"(?<!\d)[-+]?\d+(?!\d)"
+        elif remove_decimal:
+            pattern = r"\d*\.?\d+"
+        else:
+            pattern = r"\d+"
+
+        cleaned_text = re.sub(pattern, "", text)
+
+        cleaned_text = re.sub(r"\s*,\s*", " ", cleaned_text)
+        cleaned_text = re.sub(r"\s+", " ", cleaned_text)
+
+        cleaned_text = re.sub(r"^,", "", cleaned_text).strip()
+
+        return cleaned_text
 
     @staticmethod
     def remove_more_space(text: str) -> str:
