@@ -1,6 +1,6 @@
 import re
 import warnings
-from typing import List, Optional, Dict
+from typing import List, Optional, Dict, Set, Union
 from pathlib import Path
 from ._builtin import DeasciifierBuiltin, NormBuiltin
 import pandas as pd
@@ -8,6 +8,9 @@ import pandas as pd
 ST_WR_PATH = str(Path(__file__).parent.parent / "data/stop_words.txt")
 
 class Normalizer:
+    
+    STOP_WORDS = None
+        
     @staticmethod
     def lower_case(text: str) -> str:
         """
@@ -67,18 +70,8 @@ class Normalizer:
         >>> Normalizer.remove_punctuations("#Merhaba, Dünya! ! # $ % &'()*+,-./:; <= >?@ [\]^_`{|}~) ")
         'Merhaba Dünya'
         """
-        text = re.sub(
-            r"[^\w\sğüşıöçĞÜŞİÖÇ]",  # Alphanumeric olmayan ve boşluk olmayan tüm karakterler
-            "",  # ile değiştirilecek olan ifade-> burada boş string
-            text,  
-        )
-        
-        text = re.sub(
-            r"\s+", 
-            " ",  
-            text,  
-        )
-        
+        text = re.sub(r"[^\w\sğüşıöçĞÜŞİÖÇ.,']", "", text)  
+        text = re.sub(r"\s+", " ", text) 
         return text.strip()  
 
     @staticmethod
@@ -289,34 +282,90 @@ class Normalizer:
 
         return cleaned_text
 
-    @staticmethod
-    def remove_stopwords(text: str, stop_words_file: str = ST_WR_PATH) -> str:
+    @classmethod
+    def remove_stopwords(cls, text: str, stopwords: Union[Set[str], List[str]] = None) -> str:
         """
         Removes stop words from the given text.
 
         Parameters
         ----------
         text : str
-            The text to remove stop words from.
-        stop_words_file : str
-            The path to the file containing the stop words. Default is the path defined in the library.
+            The input text.
+        stopwords : Union[Set[str], List[str]], optional
+            A set or list of words to remove from the text.
+            If not provided, it defaults to the stop words loaded from the file.
 
         Returns
         -------
         str
-            The cleaned text without stop words.
+            The cleaned text with stop words removed.
 
-        Example
-        -------
-        >>> text = "Bu cümledeki bazı gereksiz kelimeleri çıkarmak istiyorum."
-        >>> remove_stopwords(text)
-        'cümledeki gereksiz kelimeleri çıkarmak istiyorum.'
+        Examples
+        --------
+        >>> from mintlemon import Normalizer
+
+        # Example 1: Using default stop words list
+        text = "Bu bir örnek cümle, gereksiz kelimeleri çıkarmak istiyorum."
+        cleaned_text = Normalizer.remove_stopwords(text)
+        print(cleaned_text)
+        # Output: "örnek cümle, gereksiz kelimeleri çıkarmak."
+
+        # Example 2: Providing custom stop words list
+        custom_stopwords = ["bir", "gereksiz"]
+        cleaned_text = Normalizer.remove_stopwords(text, stopwords=custom_stopwords)
+        print(cleaned_text)
+        # Output: "Bu örnek cümle, kelimeleri çıkarmak."
         """
-        with open(stop_words_file, "r", encoding="utf-8") as f:
-            stop_words = set(f.read().split())
+        if stopwords is None:
+            cls.load_stopwords(ST_WR_PATH)
+            stopwords = cls.STOP_WORDS
+        elif isinstance(stopwords, list):
+            stopwords = set(stopwords)
 
-        cleaned_text = " ".join(
-            word for word in text.split() if word.lower() not in stop_words
-        )
-
+        cleaned_text = " ".join(word for word in text.split() if word.lower() not in stopwords)
         return cleaned_text
+
+    @classmethod
+    def load_stopwords(cls, stop_words_source: Union[str, Set[str], List[str]]) -> None:
+        """
+        Loads stop words from a file or a set/list of words.
+
+        Parameters
+        ----------
+        stop_words_source : Union[str, Set[str], List[str]]
+            The path to the file containing the stop words
+            or a set/list of stop words.
+
+        Returns
+        -------
+        None
+
+        Raises
+        ------
+        ValueError
+            If stop_words_source is not a valid type.
+
+        Examples
+        --------
+        >>> from mintlemon import Normalizer
+
+        # Example 1: Load stop words from file
+        Normalizer.load_stopwords("stop_words.txt")
+
+        # Example 2: Load stop words from a set
+        stop_words_set = {"bu", "bir"}
+        Normalizer.load_stopwords(stop_words_set)
+
+        # Example 3: Load stop words from a list
+        stop_words_list = ["bazı", "istiyorum"]
+        Normalizer.load_stopwords(stop_words_list)
+        """
+        if isinstance(stop_words_source, str):
+            with open(stop_words_source, "r", encoding="utf-8") as f:
+                cls.STOP_WORDS = set(f.read().split())
+        elif isinstance(stop_words_source, (set, list)):
+            cls.STOP_WORDS = set(stop_words_source)
+        else:
+            raise ValueError(
+                "stop_words_source must be a path to a file (str), a set of words (set), or a list of words (list)."
+            )
