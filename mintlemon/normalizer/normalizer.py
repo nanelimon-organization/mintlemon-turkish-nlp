@@ -1,6 +1,6 @@
 import re
 import warnings
-from typing import List
+from typing import List, Optional, Dict, Set, Union
 from pathlib import Path
 from ._builtin import DeasciifierBuiltin, NormBuiltin
 import pandas as pd
@@ -8,6 +8,9 @@ import pandas as pd
 ST_WR_PATH = str(Path(__file__).parent.parent / "data/stop_words.txt")
 
 class Normalizer:
+    
+    STOP_WORDS = None
+        
     @staticmethod
     def lower_case(text: str) -> str:
         """
@@ -67,22 +70,13 @@ class Normalizer:
         >>> Normalizer.remove_punctuations("#Merhaba, Dünya! ! # $ % &'()*+,-./:; <= >?@ [\]^_`{|}~) ")
         'Merhaba Dünya'
         """
-        text = re.sub(
-            r"[^\w\sğüşıöçĞÜŞİÖÇ]",  # Alphanumeric olmayan ve boşluk olmayan tüm karakterler
-            "",  # ile değiştirilecek olan ifade-> burada boş string
-            text,  
-        )
-        
-        text = re.sub(
-            r"\s+", 
-            " ",  
-            text,  
-        )
+        text = re.sub(r"[^\w\sğüşıöçĞÜŞİÖÇ.,']", "", text)  
+        text = re.sub(r"\s+", " ", text) 
         
         return text.strip()  
 
     @staticmethod
-    def remove_accent_marks(text: str) -> str:
+    def remove_accent_marks(text: str, accent_mapping: Optional[Dict[str, str]] = None) -> str:
         """
         Removes accent marks from the given string.
 
@@ -90,6 +84,10 @@ class Normalizer:
         ----------
         text : str
             Input text.
+
+        accent_mapping: dict, optional
+            A dictionary mapping accented characters to their unaccented equivalents.
+            If not provided, a default mapping for some common accents in Turkish will be used.
 
         Returns
         -------
@@ -101,20 +99,26 @@ class Normalizer:
         >>> from mintlemon import Normalizer
         >>> Normalizer.remove_accent_marks("merhâbâ")
         'merhaba'
+
+        >>> accent_mapping = {"ä": "a", "ö": "o", "ü": "u"}
+        >>> Normalizer.remove_accent_marks("früchtë", accent_mapping)
+        'fruchte'
         """
-        accent_marks = {
-            "â": "a",
-            "ô": "o",
-            "î": "i",
-            "ê": "e",
-            "û": "u",
-            "Â": "A",
-            "Ô": "O",
-            "Î": "İ",
-            "Ê": "E",
-            "Û": "U",
-        }
-        for mark, letter in accent_marks.items():
+        if accent_mapping is None:
+            accent_mapping = {
+                "â": "a",
+                "ô": "o",
+                "î": "i",
+                "ê": "e",
+                "û": "u",
+                "Â": "A",
+                "Ô": "O",
+                "Î": "İ",
+                "Ê": "E",
+                "Û": "U",
+            }
+
+        for mark, letter in accent_mapping.items():
             text = text.replace(mark, letter)
         return text
 
@@ -189,44 +193,64 @@ class Normalizer:
         return result
 
     @staticmethod
-    def normalize_turkish_chars(text):
+    def normalize_chars(text, translation_table=None):
         """
-        Normalize Turkish characters in the given text.
+        Normalize characters in the given text based on the provided translation table.
 
         Parameters
         ----------
         text : str
             The text to be normalized.
 
+        translation_table : dict or str.maketrans, optional
+            The translation table that defines the mapping of characters to be replaced.
+            If not provided, it defaults to the mapping of Turkish characters to their ASCII equivalents.
+
         Returns
         -------
         str
-            The normalized text with Turkish characters replaced by their ASCII equivalents.
+            The normalized text with characters replaced based on the translation table.
 
         Examples
         --------
-        >>> normalize_turkish_chars("Bir gün İstanbul'da çay içtik.")
-        'Bir gun Istanbul\'da cay ictik.'
+        Default Turkish normalization:
+        >>> normalize_chars("Bir gün İstanbul'da çay içtik.")
+        'Bir gun Istanbul'da cay ictik.'
 
-        >>> normalize_turkish_chars("Gazi Üniversitesi'ne hoş geldiniz.")
-        'Gazi Universitesi\'ne hos geldiniz.'
+        >>> normalize_chars("Gazi Üniversitesi'ne hoş geldiniz.")
+        'Gazi Universitesi'ne hos geldiniz.'
+
+        Custom translation for Azerbaijani language:
+        >>> azerbaijani_table = str.maketrans("ƏəĞğÇçŞşÜüÖöİı", "AaGgCcSsUuOoIi")
+        >>> normalize_chars("Mən Ağcabədi şəhərində yaşayıram.", azerbaijani_table)
+        'Men Agcabedi seherinde yasayiram.'
         """
-        translationTable = str.maketrans("ğĞıİöÖüÜşŞçÇ", "gGiIoOuUsScC")
-        result = text.translate(translationTable)
+        if translation_table is None:
+            translation_table = str.maketrans("ğĞıİöÖüÜşŞçÇ", "gGiIoOuUsScC")
+
+        result = text.translate(translation_table)
         return result
 
     @staticmethod
-    def remove_numbers(text):
+    def remove_numbers(text, remove_signed=True, remove_decimal=True):
         """
         Removes numerical expressions from a given text.
 
         This function removes all numerical expressions from a given text, including
-        integers, decimals, and signed integers/decimals.
+        integers, decimals, and signed integers/decimals based on the parameters.
 
         Parameters
         ----------
         text : str
             The text to remove numerical expressions from
+
+        remove_signed : bool, optional
+            Whether to remove signed integers/decimals from the text.
+            By default, it is set to True.
+
+        remove_decimal : bool, optional
+            Whether to remove decimal numbers from the text.
+            By default, it is set to True.
 
         Returns
         -------
@@ -235,97 +259,114 @@ class Normalizer:
 
         Example
         -------
+        >>> from mintlemon import Normalizer
+        >>> normalize = Normalizer()
         >>> text = "Bu cümle 12.34 ile başlıyor ve 56 ile bitiyor. 2,5 +3,5 -3,4 ile ilgili bir şeyler söyleyebiliriz."
-        >>> remove_numbers(text)
-        'Bu cümle ile başlıyor ve ile bitiyor. ile ilgili bir şeyler söyleyebiliriz.'
+        >>> normalize.remove_numbers(text)
+        'Bu cümle ile başlıyor ve ile bitiyor. İle ilgili bir şeyler söyleyebiliriz.'
         """
-        return re.sub(r"(?<!\d)[-+]?\d*\.?\d+(?!\d)\s*", "", text)
+        if remove_signed and remove_decimal:
+            pattern = r"(?<!\d)[-+]?\d*\.?\d+(?!\d)"
+        elif remove_signed:
+            pattern = r"(?<!\d)[-+]?\d+(?!\d)"
+        elif remove_decimal:
+            pattern = r"\d*\.?\d+"
+        else:
+            pattern = r"\d+"
 
-    @staticmethod
-    def remove_more_space(text: str) -> str:
-        """
-        Removes extra spaces from the given text.
+        cleaned_text = re.sub(pattern, "", text)
 
-        Parameters
-        ----------
-        text : str
-            The text to remove extra spaces from.
+        cleaned_text = re.sub(r"\s*,\s*", " ", cleaned_text)
+        cleaned_text = re.sub(r"\s+", " ", cleaned_text)
 
-        Returns
-        -------
-        str
-            The cleaned text without extra spaces.
+        cleaned_text = re.sub(r"^,", "", cleaned_text).strip()
 
-        Example
-        -------
-        >>> text = "Ahmet Selam,  Nerelerdeydin? Seni ÇOOOOK      ÖZLEDİK!!!"
-        >>> remove_more_space(text)
-        'Ahmet Selam, Nerelerdeydin? Seni ÇOOOOK ÖZLEDİK!!!'
-        """
-        return " ".join(text.split())
+        return cleaned_text
 
-    def drop_empty_values(df, column_text) -> pd.DataFrame:
-        """
-        Drop the rows from the given dataframe where the specified column_text is empty.
-
-        Parameters
-        ----------
-        df : pandas.DataFrame
-            The dataframe to be processed
-        column_text : str
-            The name of the column to be checked for empty values
-
-        Returns
-        -------
-        pandas.DataFrame
-            The cleaned dataframe without the rows containing empty column_text values
-
-        Example
-        -------
-        >>> data = {'id': [1, 2, 3, 4, 5],
-                    'name': ['Şeyma', 'Murat', 'Elif', 'Tarık Kaan', 'Erdinç'],
-                    'text': ['Bilgisayar Mühendisi', 'Doç. Dr', '', 'Yazılım Mühendisi', '']}
-        >>> df = pd.DataFrame(data)
-        >>> cleaned_df = drop_empty_values(df, 'text')
-        >>> cleaned_df
-
-        id      name             text
-        0   1   Şeyma      Bilgisayar Mühendisi
-        2   3   Murat      Doç. Dr
-        3   4   Tarık Kaan Yazılım Mühendisi
-        """
-        cleaned_df = df[df[column_text] != ""]
-
-        return cleaned_df
-
-    @staticmethod
-    def remove_stopwords(text: str, stop_words_file: str = ST_WR_PATH) -> str:
+    @classmethod
+    def remove_stopwords(cls, text: str, stopwords: Union[Set[str], List[str]] = None) -> str:
         """
         Removes stop words from the given text.
 
         Parameters
         ----------
         text : str
-            The text to remove stop words from.
-        stop_words_file : str
-            The path to the file containing the stop words. Default is the path defined in the library.
+            The input text.
+        stopwords : Union[Set[str], List[str]], optional
+            A set or list of words to remove from the text.
+            If not provided, it defaults to the stop words loaded from the file.
 
         Returns
         -------
         str
-            The cleaned text without stop words.
+            The cleaned text with stop words removed.
 
-        Example
-        -------
-        >>> text = "Bu cümledeki bazı gereksiz kelimeleri çıkarmak istiyorum."
-        >>> remove_stopwords(text)
-        'cümledeki gereksiz kelimeleri çıkarmak istiyorum.'
+        Examples
+        --------
+        >>> from mintlemon import Normalizer
+
+        # Example 1: Using default stop words list
+        text = "Bu bir örnek cümle, gereksiz kelimeleri çıkarmak istiyorum."
+        cleaned_text = Normalizer.remove_stopwords(text)
+        print(cleaned_text)
+        # Output: "örnek cümle, gereksiz kelimeleri çıkarmak."
+
+        # Example 2: Providing custom stop words list
+        custom_stopwords = ["bir", "gereksiz"]
+        cleaned_text = Normalizer.remove_stopwords(text, stopwords=custom_stopwords)
+        print(cleaned_text)
+        # Output: "Bu örnek cümle, kelimeleri çıkarmak."
         """
-        with open(stop_words_file, "r", encoding="utf-8") as f:
-            stop_words = set(f.read().split())
+        if stopwords is None:
+            cls.load_stopwords(ST_WR_PATH)
+            stopwords = cls.STOP_WORDS
+        elif isinstance(stopwords, list):
+            stopwords = set(stopwords)
 
-        cleaned_text = " ".join(
-            word for word in text.split() if word.lower() not in stop_words
-        )
-
+        cleaned_text = " ".join(word for word in text.split() if word.lower() not in stopwords)
         return cleaned_text
+
+    @classmethod
+    def load_stopwords(cls, stop_words_source: Union[str, Set[str], List[str]]) -> None:
+        """
+        Loads stop words from a file or a set/list of words.
+
+        Parameters
+        ----------
+        stop_words_source : Union[str, Set[str], List[str]]
+            The path to the file containing the stop words
+            or a set/list of stop words.
+
+        Returns
+        -------
+        None
+
+        Raises
+        ------
+        ValueError
+            If stop_words_source is not a valid type.
+
+        Examples
+        --------
+        >>> from mintlemon import Normalizer
+
+        # Example 1: Load stop words from file
+        Normalizer.load_stopwords("stop_words.txt")
+
+        # Example 2: Load stop words from a set
+        stop_words_set = {"bu", "bir"}
+        Normalizer.load_stopwords(stop_words_set)
+
+        # Example 3: Load stop words from a list
+        stop_words_list = ["bazı", "istiyorum"]
+        Normalizer.load_stopwords(stop_words_list)
+        """
+        if isinstance(stop_words_source, str):
+            with open(stop_words_source, "r", encoding="utf-8") as f:
+                cls.STOP_WORDS = set(f.read().split())
+        elif isinstance(stop_words_source, (set, list)):
+            cls.STOP_WORDS = set(stop_words_source)
+        else:
+            raise ValueError(
+                "stop_words_source must be a path to a file (str), a set of words (set), or a list of words (list)."
+            )
