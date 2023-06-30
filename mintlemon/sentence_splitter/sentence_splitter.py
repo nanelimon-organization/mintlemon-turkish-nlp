@@ -15,24 +15,24 @@ class SentenceSplitter:
     """
     def __init__(self) -> None:
         with open(PATH, "r", encoding="utf-8") as file:
-            non_breaking_prefixes_tr = file.read().splitlines()
-        self.prefixes = non_breaking_prefixes_tr
+            self.non_breaking_prefixes_tr = file.read().splitlines()
+        self.prefix_pattern = r"(?:^|\s)(" + "|".join(self.non_breaking_prefixes_tr) + r")\."
 
     def split_sentences(self, text: str) -> List[str]:
         """
         Split the given text into sentences by considering Turkish non-breaking prefixes.
 
-        Parameters:
-        -----------
+        Parameters
+        ----------
         text : str
             The input text to be split into sentences.
 
-        Returns:
-        --------
+        Returns
+        -------
         sentences : list
             A list of sentences
 
-        Example:
+        Examples
         --------
         >>> from mintlemon import SentenceSplitter
         >>> splitter = SentenceSplitter()
@@ -40,12 +40,6 @@ class SentenceSplitter:
         >>> splitter.split_sentences(text)
         Output: ["Bu cümle bir örnektir.", "Bu cümle de bir örnektir!"]
         """
-        # Create a regex pattern for prefixes
-        prefix_pattern = "(" + "|".join(self.prefixes) + r")\."
-        # Replace all prefixes followed by a period with the prefix
-        text = re.sub(prefix_pattern, r"\1", text)
-        # Use the regular expression to split the text into sentences
-        sentences = re.split(r"(?<=[.!?])\s", text)
+        text = re.sub(self.prefix_pattern, r"\1", text)
 
-        return sentences
-
+        return re.split(r"(?<=[.!?])\s", text)
