@@ -290,63 +290,6 @@ class Normalizer:
         return cleaned_text
 
     @staticmethod
-    def remove_more_space(text: str) -> str:
-        """
-        Removes extra spaces from the given text.
-
-        Parameters
-        ----------
-        text : str
-            The text to remove extra spaces from.
-
-        Returns
-        -------
-        str
-            The cleaned text without extra spaces.
-
-        Example
-        -------
-        >>> text = "Ahmet Selam,  Nerelerdeydin? Seni ÇOOOOK      ÖZLEDİK!!!"
-        >>> remove_more_space(text)
-        'Ahmet Selam, Nerelerdeydin? Seni ÇOOOOK ÖZLEDİK!!!'
-        """
-        return " ".join(text.split())
-
-    def drop_empty_values(df, column_text) -> pd.DataFrame:
-        """
-        Drop the rows from the given dataframe where the specified column_text is empty.
-
-        Parameters
-        ----------
-        df : pandas.DataFrame
-            The dataframe to be processed
-        column_text : str
-            The name of the column to be checked for empty values
-
-        Returns
-        -------
-        pandas.DataFrame
-            The cleaned dataframe without the rows containing empty column_text values
-
-        Example
-        -------
-        >>> data = {'id': [1, 2, 3, 4, 5],
-                    'name': ['Şeyma', 'Murat', 'Elif', 'Tarık Kaan', 'Erdinç'],
-                    'text': ['Bilgisayar Mühendisi', 'Doç. Dr', '', 'Yazılım Mühendisi', '']}
-        >>> df = pd.DataFrame(data)
-        >>> cleaned_df = drop_empty_values(df, 'text')
-        >>> cleaned_df
-
-        id      name             text
-        0   1   Şeyma      Bilgisayar Mühendisi
-        2   3   Murat      Doç. Dr
-        3   4   Tarık Kaan Yazılım Mühendisi
-        """
-        cleaned_df = df[df[column_text] != ""]
-
-        return cleaned_df
-
-    @staticmethod
     def remove_stopwords(text: str, stop_words_file: str = ST_WR_PATH) -> str:
         """
         Removes stop words from the given text.
