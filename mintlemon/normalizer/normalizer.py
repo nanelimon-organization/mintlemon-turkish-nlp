@@ -189,30 +189,42 @@ class Normalizer:
         return result
 
     @staticmethod
-    def normalize_turkish_chars(text):
+    def normalize_chars(text, translation_table=None):
         """
-        Normalize Turkish characters in the given text.
+        Normalize characters in the given text based on the provided translation table.
 
         Parameters
         ----------
         text : str
             The text to be normalized.
 
+        translation_table : dict or str.maketrans, optional
+            The translation table that defines the mapping of characters to be replaced.
+            If not provided, it defaults to the mapping of Turkish characters to their ASCII equivalents.
+
         Returns
         -------
         str
-            The normalized text with Turkish characters replaced by their ASCII equivalents.
+            The normalized text with characters replaced based on the translation table.
 
         Examples
         --------
-        >>> normalize_turkish_chars("Bir gün İstanbul'da çay içtik.")
-        'Bir gun Istanbul\'da cay ictik.'
+        Default Turkish normalization:
+        >>> normalize_chars("Bir gün İstanbul'da çay içtik.")
+        'Bir gun Istanbul'da cay ictik.'
 
-        >>> normalize_turkish_chars("Gazi Üniversitesi'ne hoş geldiniz.")
-        'Gazi Universitesi\'ne hos geldiniz.'
+        >>> normalize_chars("Gazi Üniversitesi'ne hoş geldiniz.")
+        'Gazi Universitesi'ne hos geldiniz.'
+
+        Custom translation for Azerbaijani language:
+        >>> azerbaijani_table = str.maketrans("ƏəĞğÇçŞşÜüÖöİı", "AaGgCcSsUuOoIi")
+        >>> normalize_chars("Mən Ağcabədi şəhərində yaşayıram.", azerbaijani_table)
+        'Men Agcabedi seherinde yasayiram.'
         """
-        translationTable = str.maketrans("ğĞıİöÖüÜşŞçÇ", "gGiIoOuUsScC")
-        result = text.translate(translationTable)
+        if translation_table is None:
+            translation_table = str.maketrans("ğĞıİöÖüÜşŞçÇ", "gGiIoOuUsScC")
+
+        result = text.translate(translation_table)
         return result
 
     @staticmethod
