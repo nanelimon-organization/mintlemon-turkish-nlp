@@ -3,7 +3,6 @@ import warnings
 from typing import List, Optional, Dict, Set, Union
 from pathlib import Path
 from ._builtin import DeasciifierBuiltin, NormBuiltin
-import pandas as pd
 
 ST_WR_PATH = str(Path(__file__).parent.parent / "data/stop_words.txt")
 
