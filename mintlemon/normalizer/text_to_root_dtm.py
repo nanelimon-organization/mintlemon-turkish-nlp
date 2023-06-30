@@ -85,11 +85,8 @@ class TextRootDTMVectorizer:
         processed_texts = []
         for text in self.dataframe[self.column_name]:
             words = nltk.word_tokenize(text)
-            processed_words = []
-            for word in words:
-                root = self._analyze_word(word)
-                if root:
-                    processed_words.append(root)
+            processed_words = [self._analyze_word(word) for word in words]
+            processed_words = [root for root in processed_words if root is not None]
             processed_texts.append(" ".join(processed_words))
 
         X = self.vectorizer.fit_transform(processed_texts)
