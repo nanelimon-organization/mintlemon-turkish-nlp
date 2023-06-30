@@ -72,6 +72,7 @@ class Normalizer:
         """
         text = re.sub(r"[^\w\sğüşıöçĞÜŞİÖÇ.,']", "", text)  
         text = re.sub(r"\s+", " ", text) 
+        
         return text.strip()  
 
     @staticmethod
