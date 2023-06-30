@@ -1,6 +1,6 @@
 import re
 import warnings
-from typing import List
+from typing import List, Optional, Dict
 from pathlib import Path
 from ._builtin import DeasciifierBuiltin, NormBuiltin
 import pandas as pd
@@ -82,7 +82,7 @@ class Normalizer:
         return text.strip()  
 
     @staticmethod
-    def remove_accent_marks(text: str) -> str:
+    def remove_accent_marks(text: str, accent_mapping: Optional[Dict[str, str]] = None) -> str:
         """
         Removes accent marks from the given string.
 
@@ -90,6 +90,10 @@ class Normalizer:
         ----------
         text : str
             Input text.
+
+        accent_mapping: dict, optional
+            A dictionary mapping accented characters to their unaccented equivalents.
+            If not provided, a default mapping for some common accents in Turkish will be used.
 
         Returns
         -------
@@ -101,20 +105,26 @@ class Normalizer:
         >>> from mintlemon import Normalizer
         >>> Normalizer.remove_accent_marks("merhâbâ")
         'merhaba'
+
+        >>> accent_mapping = {"ä": "a", "ö": "o", "ü": "u"}
+        >>> Normalizer.remove_accent_marks("früchtë", accent_mapping)
+        'fruchte'
         """
-        accent_marks = {
-            "â": "a",
-            "ô": "o",
-            "î": "i",
-            "ê": "e",
-            "û": "u",
-            "Â": "A",
-            "Ô": "O",
-            "Î": "İ",
-            "Ê": "E",
-            "Û": "U",
-        }
-        for mark, letter in accent_marks.items():
+        if accent_mapping is None:
+            accent_mapping = {
+                "â": "a",
+                "ô": "o",
+                "î": "i",
+                "ê": "e",
+                "û": "u",
+                "Â": "A",
+                "Ô": "O",
+                "Î": "İ",
+                "Ê": "E",
+                "Û": "U",
+            }
+
+        for mark, letter in accent_mapping.items():
             text = text.replace(mark, letter)
         return text
 
