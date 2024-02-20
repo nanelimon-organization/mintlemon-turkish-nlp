@@ -32,7 +32,6 @@ class TurkishSpellChecker:
             relative to the current file. Defaults to 'data' directory within the
             current file's directory.
         """
-        # Adjust the path according to your project structure
         module_dir = os.path.dirname(__file__)
         project_dir = os.path.dirname(module_dir)
         self.base_path = os.path.join(project_dir, data_dir)
