@@ -122,32 +122,30 @@ class Normalizer:
         return text
 
     @staticmethod
-    def convert_text_numbers(text):
+    def num_to_tr_text(text):
         """
-        Convert numbers in a text to words in Turkish language
+        Converts numbers in a text to their Turkish text equivalents within the TurkNorm package.
 
-        This function converts numbers in a given text to words in Turkish language.
-        The function uses regular expressions to find and extract numbers in the text,
-        and then uses the number_to_word function to convert the numbers to words.
-        If the number is too large, a warning is issued. If the decimal number is represented by a period,
-        a warning is issued. (because in Turkish language decimal number is represented by comma.)
-        The last text where numbers were converted to words is returned.
+        This method identifies and converts numerical values found in the given text into their
+        corresponding Turkish words, adhering to Turkish numerical expression standards. It alerts
+        for numbers exceeding processing capacity or when decimal numbers are improperly formatted.
+        The output is the original text with numbers converted to their Turkish word equivalents.
 
         Parameters
         ----------
         text : str
-            The text containing numbers to be converted to words
+            The input text containing numerical values to be converted.
 
         Returns
         -------
         text : str
-            The text with the numbers converted to words in Turkish language
+            The text with numerical values converted to Turkish words.
 
-        Example:
-        --------
+        Example
+        -------
         >>> from mintlemon import Normalizer
-        >>> Normalizer.convert_text_numbers("Evi 1000000 TL Değerinde! Çok güzel bir evi var ama 3,5 ay boyunca satamamışlar...")
-        'Evi bir milyon TL Değerinde! Çok güzel bir evi var ama üç virgül beş ay boyunca satamamışlar...
+        >>> Normalizer.num_to_tr_text("Evi 1000000 TL Değerinde! Çok güzel bir evi var ama 3,5 ay boyunca satamamışlar...")
+        'Evi bir milyon TL Değerinde! Çok güzel bir evi var ama üç virgül beş ay boyunca satamamışlar...'
         """
         def convert_number(match):
             number = float(match.group(0).replace(",", "."))
@@ -165,7 +163,7 @@ class Normalizer:
         return re.sub(
             r"[-+]?\d*.\d+|\d+", convert_number, text.replace(",", " virgül ")
         ).lstrip()
-
+        
     @staticmethod
     def deasciify(input: List[str]) -> List[str]:
         """
