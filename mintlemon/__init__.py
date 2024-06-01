@@ -3,4 +3,4 @@ from .normalizer import Normalizer
 from .normalizer import TextRootDTMVectorizer
 from .turkish_spellcheck import TurkishSpellChecker
 
-__all__ = ["SentenceSplitter", "Normalizer", "TextRootDTMVectorizer", "TurkishSpellChecker"]
+__all__ = ["SentenceSplitter", "Normalizer", "TextRootDTMVectorizer"]
